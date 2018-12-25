@@ -16,7 +16,7 @@ import java.io.IOException;
 public class SmsUtils {
 
     //本站用户名
-    private static final String UID="xuriqingyun";
+    private static final String UID="本站用户名";
     //安全密钥
     private static final String KEY="安全密钥";
 
