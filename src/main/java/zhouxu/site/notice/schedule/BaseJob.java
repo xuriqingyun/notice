@@ -3,6 +3,9 @@ package zhouxu.site.notice.schedule;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import zhouxu.site.notice.exception.BizException;
 import zhouxu.site.notice.utils.ObjectUtils;
 
 
@@ -14,6 +17,7 @@ import zhouxu.site.notice.utils.ObjectUtils;
  */
 public abstract class BaseJob implements Job {
 
+    private Logger logger = LoggerFactory.getLogger(BaseJob.class);
     //任务名称
     private String jobName;
 
@@ -44,7 +48,7 @@ public abstract class BaseJob implements Job {
      * @return void
      * @throws
      **/
-    public abstract void excuteJob(JobExecutionContext jobExecutionContext) throws JobExecutionException;
+    public abstract void excuteJob(JobExecutionContext jobExecutionContext) throws Exception;
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
@@ -53,6 +57,13 @@ public abstract class BaseJob implements Job {
         this.setGroupName(jobExecutionContext.getJobDetail().getKey().getGroup());
         //自动注入其他属性
         ObjectUtils.map2Object(this,jobExecutionContext.getMergedJobDataMap());
-        excuteJob(jobExecutionContext);
+        logger.info(String.format("[jobName:%s,groupName%s]>>>>>>>>>>>>>>>>>>>>>>>>>>>>started",this.jobName,this.groupName));
+        try {
+            excuteJob(jobExecutionContext);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BizException(e.getMessage());
+        }
+        logger.info(String.format("[jobName:%s,groupName%s]============================finished",this.jobName,this.groupName));
     }
 }

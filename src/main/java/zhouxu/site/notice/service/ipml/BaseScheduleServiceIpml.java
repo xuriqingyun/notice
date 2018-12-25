@@ -145,4 +145,8 @@ public class BaseScheduleServiceIpml implements BaseScheduleService {
     public List<JobDetail> queryJobs(Map<String, Object> map) {
         return baseScheduleDao.queryJobs(map);
     }
+    @Override
+    public Map getJobRuntimeInfo(String jobName, String groupName) throws Exception{
+        return baseScheduleDao.getJobRuntimeInfo(jobName,groupName);
+    }
 }

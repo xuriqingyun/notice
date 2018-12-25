@@ -2,6 +2,8 @@ package zhouxu.site.notice.utils;
 
 import com.google.gson.Gson;
 
+import java.util.Map;
+
 /**
  * Created with IntelliJ IDEA.
  * Description:json 工具
@@ -21,6 +23,32 @@ public class JsonUtils {
     public static String toJson(Object object){
         Gson gson = new Gson();
         return gson.toJson(object);
+    }
+
+    /**
+     * @Author zhouxu
+     * @Description //object转map
+     * @Date 2018/12/25 17:06
+     * @Param [object]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     **/
+    public static Map<String,Object> parse(Object object){
+        String json = toJson(object);
+        return parse(json);
+    }
+
+    /**
+     * @Author zhouxu
+     * @Description //String转map
+     * @Date 2018/12/25 17:09
+     * @Param [data]
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     **/
+    public static Map<String,Object> parse(String data){
+        Gson gson = new Gson();
+        return gson.fromJson(data,Map.class);
     }
 
     /**

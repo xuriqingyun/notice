@@ -1,7 +1,6 @@
 package zhouxu.site.notice.schedule;
 
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zhouxu.site.notice.utils.SmsUtils;
@@ -46,19 +45,14 @@ public class ExcuteBirthdayJob extends BaseJob {
     }
 
     @Override
-    public void excuteJob(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    public void excuteJob(JobExecutionContext jobExecutionContext) throws Exception {
         //[zhouxu]提醒你 农历:12-29,
-        try {
-            noticeContent="提醒你 农历:"+date+","+noticeContent;
-            boolean send = SmsUtils.send(phone, noticeContent);
-            if(send){
-                logger.info(String.format("phone:%s noticeContent:%s send success!",this.phone,this.noticeContent));
-            }else{
-                logger.info(String.format("phone:%s noticeContent:%s send failed!",this.phone,this.noticeContent));
-            }
-        } catch (Exception e) {
+        noticeContent="提醒你 农历:"+date+","+noticeContent;
+        boolean send = SmsUtils.send(phone, noticeContent);
+        if(send){
+            logger.info(String.format("phone:%s noticeContent:%s send success!",this.phone,this.noticeContent));
+        }else{
             logger.info(String.format("phone:%s noticeContent:%s send failed!",this.phone,this.noticeContent));
-            e.printStackTrace();
         }
     }
 }

@@ -29,6 +29,19 @@ public class ScheduleController {
 
     /**
      * @Author zhouxu
+     * @Description //通过名称和组获取运行信息详细信息
+     * @Date 2018/12/25 22:36
+     * @Param [jobName, groupName]
+     * @return zhouxu.site.notice.utils.RestResult
+     * @throws
+     **/
+    @GetMapping("/getJobRuntimeInfo")
+    public RestResult getJobRuntimeInfo(String jobName,String groupName) throws Exception {
+        return  RestResult.Success(baseScheduleService.getJobRuntimeInfo(jobName,groupName));
+    }
+
+    /**
+     * @Author zhouxu
      * @Description //暂停任务
      * @Date 2018/12/7 10:23
      * @Param [jobName, groupName, cronExpression]

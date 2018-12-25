@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA.
@@ -55,6 +56,23 @@ public class DateUtils {
         String format="yyyy-MM-dd  HH:mm:ss";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         return simpleDateFormat.format(date);
+    }
+
+    /**
+     * @Author zhouxu
+     * @Description //获取字符串时间,剔除不同其他类型
+     * @Date 2018/12/25 9:45
+     * @Param [date]
+     * @return java.lang.String
+     * @throws
+     **/
+    public static String format(Object object){
+        if(object==null||!(object instanceof Date)){
+            return "";
+        }
+        String format="yyyy-MM-dd  HH:mm:ss";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        return simpleDateFormat.format(object);
     }
 
     /**
@@ -178,4 +196,25 @@ public class DateUtils {
         }
         return simpleDateFormat.parse(dateStr);
     }
+
+    /**
+     * @Author zhouxu
+     * @Description //english 时间字符串转chiness时间字符串
+     * @Date 2018/12/25 21:59
+     * @Param [dateStr]
+     * @return java.lang.String
+     * @throws
+     **/
+    public static String format_en2ch(String dateStr) throws ParseException {
+        if(dateStr==null||dateStr.equals("")){
+            return "";
+        }
+//        String dateStr="Dec 25, 2018 12:56:00 PM";
+        SimpleDateFormat enSimpleDateFormat= new SimpleDateFormat("MMM d, yyyy h:m:s aa", Locale.ENGLISH);
+        Date parse = enSimpleDateFormat.parse(dateStr);
+        SimpleDateFormat chSimpleDateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return chSimpleDateFormat.format(parse);
+    }
+
+
 }

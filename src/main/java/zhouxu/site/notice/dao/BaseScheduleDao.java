@@ -93,4 +93,14 @@ public interface BaseScheduleDao {
      * @throws
      **/
     List<JobDetail> queryJobs(Map<String, Object> map);
+
+    /**
+     * @Author zhouxu
+     * @Description //通过名称和组获取运行信息详细信息
+     * @Date 2018/12/25 16:22
+     * @Param [jobName, groupName]
+     * @return java.util.Map
+     * @throws
+     **/
+    Map getJobRuntimeInfo(String jobName, String groupName) throws Exception;
 }

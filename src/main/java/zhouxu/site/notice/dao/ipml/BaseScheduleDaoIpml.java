@@ -8,8 +8,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import zhouxu.site.notice.dao.BaseScheduleDao;
 import zhouxu.site.notice.exception.BizException;
+import zhouxu.site.notice.utils.DateUtils;
+import zhouxu.site.notice.utils.JsonUtils;
+import zhouxu.site.notice.utils.MapUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -99,7 +103,7 @@ public class BaseScheduleDaoIpml implements BaseScheduleDao {
         }
         //按新的cronExpression表达式构建一个新的trigger
 //        Date endDate = new Date();
-//        //6秒钟之后不执行(用于过滤，今天为11-20 触发开始为10-20时间也触发的情况)
+//        //6秒钟之后不执行(用于过滤，今天为11-20 触发开始为10-20时间 也会触发)
 //        endDate.setTime(startTime.getTime()+6000);
         SimpleTrigger trigger = (SimpleTrigger)TriggerBuilder.newTrigger().usingJobData(parseToJobDataMap(params)).withIdentity(jobName, groupName).startAt(startTime).build();
         try {
@@ -206,4 +210,28 @@ public class BaseScheduleDaoIpml implements BaseScheduleDao {
     public List<JobDetail> queryJobs(Map<String, Object> map) {
         return null;
     }
+
+    @Override
+    public Map getJobRuntimeInfo(String jobName, String groupName) throws Exception {
+        Map map = new HashMap();
+        TriggerKey triggerKey = TriggerKey.triggerKey(jobName, groupName);
+        Trigger trigger = scheduler.getTrigger(triggerKey);
+        Map<String, Object> dataMap = JsonUtils.parse(trigger);
+        //TODO:判断cronEx
+        map.put("cronExpression",MapUtils.get(dataMap,"cronEx.cronExpression"));
+        //TODO:startTime
+        map.put("startTime",DateUtils.format_en2ch(MapUtils.get(dataMap,"startTime").toString()));
+        //TODO:nextFireTime
+        map.put("nextFireTime",DateUtils.format_en2ch(MapUtils.get(dataMap,"nextFireTime").toString()));
+        //TODO:previousFireTime
+        map.put("previousFireTime",DateUtils.format_en2ch(MapUtils.get(dataMap,"previousFireTime").toString()));
+        //TODO:jobName
+        map.put("jobName",MapUtils.get(dataMap,"jobName"));
+        //TODO:jobGroup
+        map.put("jobGroup",MapUtils.get(dataMap,"jobGroup"));
+        //TODO:jobDataMap
+        map.put("jobDataMap",MapUtils.get(dataMap,"jobDataMap"));
+        return map;
+    }
+
 }
