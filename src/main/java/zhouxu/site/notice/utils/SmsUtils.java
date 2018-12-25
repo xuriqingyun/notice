@@ -44,12 +44,4 @@ public class SmsUtils {
         }
         return false;
     }
-
-    public static void main(String[] args) {
-        try {
-            SmsUtils.send("15243694469","周小宝祝陈小宝平安夜快乐!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
