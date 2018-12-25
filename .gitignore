@@ -24,4 +24,3 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-src/main/java/zhouxu/site/notice/utils/SmsUtils.java
