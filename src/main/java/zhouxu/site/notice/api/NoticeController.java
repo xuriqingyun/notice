@@ -57,6 +57,7 @@ public class NoticeController {
      * @return zhouxu.site.notice.utils.RestResult
      * @throws
      **/
+    @PostMapping("/addOnceJobAt")
     public RestResult addOnceJobAt(String jobName, String groupName,String phone,String date,String noticeContent) throws ParseException {
         Map<String,Object> params = new HashMap<>();
         params.put("phone",phone);
